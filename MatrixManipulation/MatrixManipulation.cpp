@@ -1,20 +1,42 @@
 // MatrixManipulation.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
+#include "matrix.h"
 
-int main()
-{
-    std::cout << "Hello World!\n";
+int main() {
+    int size = 3;
+    int arr[3][3] = { {0, 0, 0}, {0, 0, 0}, {0, 0, 0} };
+    ifstream inFile;
+    inFile.open("array.txt");
+    if (!inFile.is_open()) {
+        cout << "Unable to open file\n";
+        return 1;
+    }
+    fillMatrix(inFile, arr, size);
+    inFile.close();
+    printMatrix(arr, size);
+    cout << "Minimum: " << minMatrix(arr, size) << endl;
+
+    vector<vector<int>> v1, v2, addM, multM;
+    ifstream inFile2;
+    inFile2.open("vector.txt");
+    if (!inFile2.is_open()) {
+        cout << "Unable to open file\n";
+        return 1;
+    }
+    fillMatrix(inFile2, v1, size);
+    fillMatrix(inFile2, v2, size);
+    addMatrix(v1, v2, addM, size);
+    multMatrix(v1, v2, multM, size);
+    printMatrix(v1, size);
+    cout << "Minimum: " << minMatrix(v1, size) << endl;
+    cout << endl;
+    printMatrix(v2, size);
+    cout << "Minimum: " << minMatrix(v2, size) << endl;
+    cout << endl;
+    printMatrix(addM, size);
+    cout << "Minimum: " << minMatrix(addM, size) << endl;
+    cout << endl;
+    printMatrix(multM, size);
+    cout << "Minimum: " << minMatrix(multM, size) << endl;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
