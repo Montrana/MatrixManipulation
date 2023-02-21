@@ -6,13 +6,11 @@
 #include <iomanip>
 using namespace std;
 
-void fillMatrix(ifstream& inFile, int arr[3][3], int size);
-void fillMatrix(ifstream& inFile, vector<vector<int>>& v1, int& size);
-void printMatrix(int arr[3][3], int size);
+void fillMatrix(vector<vector<int>>& v1, int& size);
 void printMatrix(vector<vector<int>> v1, int size);
-int minMatrix(int arr[3][3], int size);
-int minMatrix(vector<vector<int>> v1, int size);
-void addMatrix(vector<vector<int>> v1, vector<vector<int>> v2,
-    vector<vector<int>>& addM, int& size);
-void multMatrix(vector<vector<int>> v1, vector<vector<int>> v2,
-    vector<vector<int>>& multM, int& size);
+void addMatrix(vector<vector<int>> v1, vector<vector<int>> v2, vector<vector<int>>& addM, int& size);
+void multMatrix(vector<vector<int>> v1, vector<vector<int>> v2, vector<vector<int>>& multM, int& size);
+bool isReflexive(vector<vector<int>> v1, int size);
+bool isSymmetric(vector<vector<int>> v1, int size);
+bool isTransitive(vector<vector<int>> v1, int size);
+void calcTransClosure(vector<vector<int>> v1, vector<vector<int>>& transClosure, int& size);
