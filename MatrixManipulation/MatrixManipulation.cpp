@@ -8,7 +8,7 @@ int main() {
     vector<vector<int>> v1, transClosure;
     
     fillMatrix(v1, size);
-    cout << "The current matrix is: \n";
+    cout << "\nThe current matrix is:\n\n";
     printMatrix(v1, size);
     if (isReflexive(v1, size))
     {
@@ -41,6 +41,7 @@ int main() {
     printMatrix(multM, size);
     */
     calcTransClosure(v1, transClosure, size);
-    cout << "The transitive closure is:\n";
+    cout << "\nThe transitive closure is:\n";
     printMatrix(transClosure, size);
+    verifyPath(transClosure, size);
 }
