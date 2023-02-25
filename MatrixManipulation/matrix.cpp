@@ -1,8 +1,12 @@
 #include "matrix.h"
 using namespace std;
 
+/// <summary>
+/// This function fills a matrix with the values in a file or set hardcoded values.
+/// </summary>
+/// <param name="v1">The vector, which represents a matrix, which is passed by value, changes based on what we put in the vector.</param>
+/// <param name="size">The size of the square vector, the number of values represented by the vector is size*size</param>
 void fillMatrix(vector<vector<int>>& v1, int& size) {
-    
     vector<int> tempRow;
     int tempValue;
     int inputType;
@@ -11,47 +15,50 @@ void fillMatrix(vector<vector<int>>& v1, int& size) {
     cout << "1 - Use set values\n";
     cout << "Enter your choice: ";
     cin >> inputType;
-    if (inputType == 0)
+    if (inputType == 0) // choice of inputing the matrix from a file
     {
         ifstream inFile;
         inFile.open("vector.txt");
-        if (!inFile.is_open()) {
+        if (!inFile.is_open()) // checks to see if the file is open
+        {
             cout << "Unable to open file\n";
         }
-        inFile >> size;
-        for (int r = 0; r < size; r++) {
-            tempRow.clear();
-            for (int c = 0; c < size; c++) {
-                inFile >> tempValue;
-                tempRow.push_back(tempValue);
+        else
+        {
+            inFile >> size;
+            for (int r = 0; r < size; r++) {
+                tempRow.clear();
+                for (int c = 0; c < size; c++) {
+                    inFile >> tempValue;
+                    tempRow.push_back(tempValue);
+                }
+                v1.push_back(tempRow);
             }
-            v1.push_back(tempRow);
         }
     }
-    else if (inputType == 1)
+    else if (inputType == 1) // inputing the matrix using a set set of values
     {
         int dimension;
         cout << "Which vector dimension (2-4) do you prefer? ";
         cin >> dimension;
-        switch (dimension)
-        {
+        switch (dimension) {
         case 2:
             size = 2;
             v1 = { {1,0},
-                    {0,1} };
+                   {0,1} };
             break;
         case 3:
             size = 3;
             v1 = { {1,1,0},
-                    {0,1,0},
-                    {1,0,1} };
+                   {0,1,0},
+                   {1,0,1} };
             break;
         case 4:
             size = 4;
             v1 = { {1,1,1,0},
-                    {1,1,0,1},
-                    {1,0,0,0},
-                    {0,1,0,1} };
+                   {1,1,0,1},
+                   {1,0,0,0},
+                   {0,1,0,1} };
             break;
         default:
             break;
@@ -59,6 +66,12 @@ void fillMatrix(vector<vector<int>>& v1, int& size) {
     }
 }
 
+/// <summary>
+/// Copies one matrix into another, in order to get around the inability to directly set one vector equal to another.
+/// </summary>
+/// <param name="v1">the vector that will be coppied</param>
+/// <param name="v2">the vector that we will copy the values of v1 into</param>
+/// <param name="size">the size of v1 and what will be v2</param>
 void copyMatrix(vector<vector<int>> v1, vector<vector<int>>& v2, int size)
 {
     vector<int> tempRow;
@@ -74,6 +87,11 @@ void copyMatrix(vector<vector<int>> v1, vector<vector<int>>& v2, int size)
     }
 }
 
+/// <summary>
+/// Initiallizes a matrix with all 0s for its values
+/// </summary>
+/// <param name="v1">the matrix to be created with 0s for all values</param>
+/// <param name="size">the size of the matrix squared to get the number of values</param>
 void initializeEmptyMatrix(vector<vector<int>>& v1, int size)
 {
     vector<int> tempRow;
@@ -86,6 +104,11 @@ void initializeEmptyMatrix(vector<vector<int>>& v1, int size)
     }
 }
 
+/// <summary>
+/// Prints a matrix
+/// </summary>
+/// <param name="v1">the matrix that gets printed</param>
+/// <param name="size">the size of the matrix, used to loop through the matrix and print all values</param>
 void printMatrix(vector<vector<int>> v1, int size) {
     for (int r = 0; r < size; r++) {
         for (int c = 0; c < size; c++) {
@@ -95,6 +118,13 @@ void printMatrix(vector<vector<int>> v1, int size) {
     }
 }
 
+/// <summary>
+/// adds one matrix to another and outputs it using a third matrix: v1 + v2 = addM
+/// </summary>
+/// <param name="v1">the first matrix to be added</param>
+/// <param name="v2">the second matrix to be added</param>
+/// <param name="addM">the out put matrix that is passed by reference so it can be changed</param>
+/// <param name="size">the size of each of these matrices, used to loop for the addition algorithm</param>
 void addMatrix(vector<vector<int>> v1, vector<vector<int>> v2,
     vector<vector<int>>& addM, int& size) {
     vector<int> tempRow;
@@ -109,6 +139,13 @@ void addMatrix(vector<vector<int>> v1, vector<vector<int>> v2,
     }
 }
 
+/// <summary>
+/// multiplies one matrix with another, and out puts a third matrix: v1 * v2 = multM
+/// </summary>
+/// <param name="v1">the first matrix to be added</param>
+/// <param name="v2">the second matrix to be added</param>
+/// <param name="multM">the output matrix, which is passed by reference so it could be changed</param>
+/// <param name="size">the size of each of the 3 matrices</param>
 void multMatrix(vector<vector<int>> v1, vector<vector<int>> v2,
     vector<vector<int>>& multM, int& size) {
     vector<int> tempRow;
@@ -118,13 +155,20 @@ void multMatrix(vector<vector<int>> v1, vector<vector<int>> v2,
         for (int j = 0; j < size; j++) {
             tempValue = 0;
             for (int k = 0; k < size; k++) {
-                tempValue += (v1[i][k] * v2[k][j]);
+                tempValue += (v1[i][k] * v2[k][j]); // the matrix multiplication formula
             }
             tempRow.push_back(tempValue);
         }
         multM.push_back(tempRow);
     }
 }
+
+/// <summary>
+/// calculates a summation of all matrices in matrices, in order to find the transitive closure
+/// </summary>
+/// <param name="matrices">the list of matrices to add together</param>
+/// <param name="outMatrix">the matrix that the summation will be added into</param>
+/// <param name="size">the size of each of the matrices</param>
 void summationOfMatrices(vector<vector<vector<int>>> matrices, vector<vector<int>>& outMatrix, int size)
 {
     vector<vector<int>> tempMatrix;
@@ -133,24 +177,41 @@ void summationOfMatrices(vector<vector<vector<int>>> matrices, vector<vector<int
     
     for (int i = 0; i < size; i++) {
         addMatrix(matrices[i], tempMatrix, tempMatrix2, size);
+        
+        // used for testing:
         //cout << "Summation after " << i + 1 << " loops:\n";
         //printMatrix(tempMatrix2, size);
+
         copyMatrix(tempMatrix2, tempMatrix, size);
         tempMatrix2.clear();
     }
     copyMatrix(tempMatrix, outMatrix, size);
 }
+
+/// <summary>
+/// Checks to see if a matrix is reflexive: if all values along the diagonal are 1
+/// </summary>
+/// <param name="v1">the matrix that is checked to see if it is transitive</param>
+/// <param name="size">the size of the matrix</param>
+/// <returns>a bool if the matrix is reflexive or not</returns>
 bool isReflexive(vector<vector<int>> v1, int size)
 {
     for (int i = 0; i < size; i++)
     {
         if (v1[i][i] != 1)
         {
-            return false;
+            return false; //returns false if one value along the diagonal is not 1
         }
     }
-    return true;
+    return true; //returns true if the full matrix has been checked and every value along the diagonal is true
 }
+
+/// <summary>
+/// checks and sees if a matrix is symmetric or not: all values across the diagonal are the same
+/// </summary>
+/// <param name="v1">the matrix that is checked to see if it is symmetric or not</param>
+/// <param name="size">the size of the matrix</param>
+/// <returns>a bool whether or not the matrix is symmetric or not</returns>
 bool isSymmetric(vector<vector<int>> v1, int size)
 {
     for (int i = 0; i < size; i++)
@@ -159,12 +220,20 @@ bool isSymmetric(vector<vector<int>> v1, int size)
         {
             if (i != j && v1[i][j] != v1[j][i])
             {
-                return false;
+                return false; // if one of the cases fail, the matrix is not symmetric
             }
         }
     }
-    return true;
+    return true; // if all tests pass, the matrix is symmetric
 }
+
+/// <summary>
+/// checks to see if a matrix is transitive or not: 
+/// if a value of a squared matrix is non zero while in the non squared matrix, it was zero, it is not reflexive
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="size"></param>
+/// <returns></returns>
 bool isTransitive(vector<vector<int>> v1, int size)
 {
     vector<vector<int>>vectorSquared;
@@ -181,6 +250,13 @@ bool isTransitive(vector<vector<int>> v1, int size)
     }
     return true;
 }
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="transClosure"></param>
+/// <param name="size"></param>
 void calcTransClosure(vector<vector<int>> v1, vector<vector<int>>& transClosure, int& size)
 {
     vector<vector<int>> tempMatrix;
@@ -204,6 +280,12 @@ void calcTransClosure(vector<vector<int>> v1, vector<vector<int>>& transClosure,
     }
     summationOfMatrices(matrixList, transClosure, size);
 }
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="transClosure"></param>
+/// <param name="size"></param>
 void verifyPath(vector<vector<int>> transClosure, int size) {
     int start;
     int end;
